@@ -9,6 +9,9 @@ import { Safe } from 'custom-decorators';
 export class AppComponent implements OnInit {
   title = 'custom-decorators-demo';
 
+  decoratorTitle = 'Safe';
+  decoratorDescription = 'Wrapping up target method with try catch structure.';
+
   ngOnInit(): void {
     console.log('{value: 10}: ', this.execute({value: 10}));
     console.log('{ }: ', this.execute({  }));
