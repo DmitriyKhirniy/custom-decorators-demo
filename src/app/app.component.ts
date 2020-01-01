@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Safe } from 'custom-decorators';
+import { Component, NgZone, OnInit } from '@angular/core';
+import { OutsideZone } from 'custom-decorators';
 
 @Component({
   selector: 'app-root',
@@ -9,17 +9,27 @@ import { Safe } from 'custom-decorators';
 export class AppComponent implements OnInit {
   title = 'custom-decorators-demo';
 
-  decoratorTitle = 'Safe';
+  decoratorTitle = 'OutsideZone';
   decoratorDescription = 'Wrapping up target method with try catch structure.';
 
+  constructor(private ngZone: NgZone) {}
+
   ngOnInit(): void {
-    console.log('{value: 10}: ', this.execute({value: 10}));
-    console.log('{ }: ', this.execute({  }));
-    console.log('null: ', this.execute(null));
   }
 
-  @Safe({ returnValue: null })
-  execute(o: object): number {
-    return o['value'] / 10;
+  changeTitle(): void {
+    this.execute('Testing Title');
+    this.executionWithoutZone('Description');
+  }
+
+  execute(newTitle: string): void {
+    this.decoratorTitle = newTitle;
+  }
+
+  @OutsideZone
+  executionWithoutZone(description: string): void {
+    setTimeout(() => {
+      this.decoratorDescription = description;
+    }, 1000);
   }
 }
