@@ -13,14 +13,18 @@ export class AppComponent {
   decoratorTitle = 'Storage';
   decoratorDescription = 'Logic for storing values in browser storage.';
 
-  @Storage<number>('custom-decorators-demo')
-  value: number;
+  value1;
+  value2;
 
-  setValue(): void {
-    this.value = 10;
+  setValue1(): void {
+    this.value1 = this.getRandomArbitrary(1, 100);
   }
 
-  clear(): void {
-    this.value = null;
+  setValue2(): void {
+    this.value2 = this.getRandomArbitrary(1, 100);
+  }
+
+  getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
   }
 }
