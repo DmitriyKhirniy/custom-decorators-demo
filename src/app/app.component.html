@@ -353,13 +353,9 @@
   <h2>@{{decoratorTitle}}</h2>
   <p>{{decoratorDescription}}</p>
 
-  <h4>Outer value1: {{value1}}</h4>
-  <h4>Outer value2: {{value2}}</h4>
-
-  <button (click)="setValue1()">Set random value to 1</button>
-  <button (click)="setValue2()">Set random value to 2</button>
-
-  <app-testing [value1]="value1" [value2]="value2"></app-testing>
+  <h4>Value is: {{value}}</h4>
+  <h5>IsLoading: {{isLoading}}</h5>
+  <button (click)="fetchValues()" [disabled]="isLoading">Fetch value</button>
 
 
 

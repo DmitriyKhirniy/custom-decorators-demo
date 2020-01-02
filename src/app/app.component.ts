@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { RequestCacheService } from './request-cache.service';
+import { Observable, of } from 'rxjs';
+import { delay } from 'rxjs/operators';
+import { Cacheable } from 'custom-decorators';
 
 @Component({
   selector: 'app-root',
@@ -8,18 +12,31 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'custom-decorators-demo';
 
-  decoratorTitle = 'TrackChanges';
-  decoratorDescription = 'Logic for tracking changes for properties with @Input decorator.';
+  decoratorTitle = 'Cacheable';
+  decoratorDescription = 'Decorator that hiding a lot of inner logic with caching observable.';
 
-  value1;
-  value2;
+  value;
 
-  setValue1(): void {
-    this.value1 = this.getRandomArbitrary(1, 100);
+  isLoading = false;
+
+  constructor(readonly cacheService: RequestCacheService) {
   }
 
-  setValue2(): void {
-    this.value2 = this.getRandomArbitrary(1, 100);
+  fetchValues(): void {
+    this.isLoading = true;
+    this.getValues()
+      .subscribe(res => {
+        this.value = res;
+        this.isLoading = false;
+      });
+  }
+
+  @Cacheable('custom_key', false, 5000)
+  getValues(): Observable<number> {
+    return of(this.getRandomArbitrary(0, 10000))
+      .pipe(
+        delay(2000)
+      );
   }
 
   getRandomArbitrary(min, max) {

@@ -6,3 +6,4 @@ export * from './lib/outside-zone';
 export * from './lib/take-until-destroy';
 export * from './lib/storage';
 export * from './lib/track-changes';
+export * from './lib/cacheable';
