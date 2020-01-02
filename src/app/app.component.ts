@@ -1,35 +1,38 @@
-import { Component, NgZone, OnInit } from '@angular/core';
-import { OutsideZone } from 'custom-decorators';
+import { Component, OnDestroy } from '@angular/core';
+import { TakeUntilDestroy } from 'custom-decorators';
+
+import { Observable, of } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+@TakeUntilDestroy
+export class AppComponent implements OnDestroy {
   title = 'custom-decorators-demo';
 
-  decoratorTitle = 'OutsideZone';
-  decoratorDescription = 'Wrapping up target method with try catch structure.';
+  decoratorTitle = 'TakeUntilDestroy';
+  decoratorDescription = 'Logic for unsubscribe.';
 
-  constructor(private ngZone: NgZone) {}
+  private componentDestroy: () => Observable<unknown>;
 
-  ngOnInit(): void {
+  constructor() {
+    this.execute(10)
+      .pipe(takeUntil(this.componentDestroy()))
+      .subscribe(value => {});
+    this.execute(20)
+      .pipe(takeUntil(this.componentDestroy()))
+      .subscribe(value => {});
+    this.execute(30)
+      .pipe(takeUntil(this.componentDestroy()))
+      .subscribe(value => {});
   }
 
-  changeTitle(): void {
-    this.execute('Testing Title');
-    this.executionWithoutZone('Description');
-  }
+  ngOnDestroy(): void {}
 
-  execute(newTitle: string): void {
-    this.decoratorTitle = newTitle;
-  }
-
-  @OutsideZone
-  executionWithoutZone(description: string): void {
-    setTimeout(() => {
-      this.decoratorDescription = description;
-    }, 1000);
+  execute(value: number): Observable<number> {
+    return of(value);
   }
 }

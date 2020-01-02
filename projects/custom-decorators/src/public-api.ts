@@ -3,3 +3,4 @@
  */
 export * from './lib/safe';
 export * from './lib/outside-zone';
+export * from './lib/take-until-destroy';
