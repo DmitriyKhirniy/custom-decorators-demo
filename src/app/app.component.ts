@@ -1,38 +1,26 @@
-import { Component, OnDestroy } from '@angular/core';
-import { TakeUntilDestroy } from 'custom-decorators';
+import { Component } from '@angular/core';
 
-import { Observable, of } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Storage } from 'custom-decorators';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-@TakeUntilDestroy
-export class AppComponent implements OnDestroy {
+export class AppComponent {
   title = 'custom-decorators-demo';
 
-  decoratorTitle = 'TakeUntilDestroy';
-  decoratorDescription = 'Logic for unsubscribe.';
+  decoratorTitle = 'Storage';
+  decoratorDescription = 'Logic for storing values in browser storage.';
 
-  private componentDestroy: () => Observable<unknown>;
+  @Storage<number>('custom-decorators-demo')
+  value: number;
 
-  constructor() {
-    this.execute(10)
-      .pipe(takeUntil(this.componentDestroy()))
-      .subscribe(value => {});
-    this.execute(20)
-      .pipe(takeUntil(this.componentDestroy()))
-      .subscribe(value => {});
-    this.execute(30)
-      .pipe(takeUntil(this.componentDestroy()))
-      .subscribe(value => {});
+  setValue(): void {
+    this.value = 10;
   }
 
-  ngOnDestroy(): void {}
-
-  execute(value: number): Observable<number> {
-    return of(value);
+  clear(): void {
+    this.value = null;
   }
 }
