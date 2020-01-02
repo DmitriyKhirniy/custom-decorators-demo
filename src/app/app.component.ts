@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 
-import { Storage } from 'custom-decorators';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -10,8 +8,8 @@ import { Storage } from 'custom-decorators';
 export class AppComponent {
   title = 'custom-decorators-demo';
 
-  decoratorTitle = 'Storage';
-  decoratorDescription = 'Logic for storing values in browser storage.';
+  decoratorTitle = 'TrackChanges';
+  decoratorDescription = 'Logic for tracking changes for properties with @Input decorator.';
 
   value1;
   value2;
