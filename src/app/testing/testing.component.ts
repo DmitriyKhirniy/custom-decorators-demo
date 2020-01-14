@@ -17,7 +17,17 @@ export class TestingComponent implements OnChanges {
 
   @TrackChanges<number>('value1', 'parseValue1')
   @TrackChanges<number>('value2', 'parseValue2')
-  ngOnChanges(changes: SimpleChanges): void {}
+  ngOnChanges(changes: SimpleChanges): void {
+
+    /*How it was*/
+    // if (changes['value1'] && changes['value1'].currentValue) {
+    //   this.parseValue1(changes['value1'].currentValue);
+    // }
+    //
+    // if (changes['value2'] && changes['value2'].currentValue) {
+    //   this.parseValue2(changes['value2'].currentValue);
+    // }
+  }
 
   parseValue1(value: number): void {
     this.values.val1 = value * 10;
